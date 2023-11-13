@@ -2,6 +2,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Popup from './Components/PopUp/Popup';
 import "../src/Components/AppBody/AppBody.css"
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'; 
+import Login from './Components/Login/Login';
+import Signup from './Components/SignUp/Signup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
 import React, { useState } from 'react'
@@ -10,10 +13,16 @@ function App() {
   const [buttonpop,setbuttonpop] = useState(false)
   const [heading,setheading] = useState('Add')
   return (
+    
     <div className="App">
       <main>
       <section className='body'>
-   
+      <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
+    </Router>
    <Container>
            <Row className='align-items-center justify-content-center'>
               <h2 className='Header'>

@@ -6,11 +6,23 @@
     max-width: 1060px !important;
 }
 
-
+.body1{
+    height: 100vh;
+    background-image: url('E:\React_projects\contact\Contactify\src\assets\img3.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+   text-align: center;
+  }
 
 .second{
     margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
 }
+
+
+
 .hi{
     font-size:15px;
 }

@@ -10,7 +10,7 @@
 }
 
 .bg {
-    background-image: url('../assets/contact2.webp');
+    background-image: url('./assets/contact2.webp');
     
     background-size: auto 35em; /* Adjust the height (300px in this example) based on your needs */
     background-color: rgb(213, 240, 255);

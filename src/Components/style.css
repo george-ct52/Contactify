@@ -2,6 +2,12 @@
 {
  width:30%;
 }
+.up{
+    margin-top: 2px;
+    display: flex;
+    justify-content:flex-start;
+    align-items: center;
+}
 
 .bg {
     background-image: url('../assets/contact2.webp');

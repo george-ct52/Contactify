@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../style.css';
+import axios from 'axios';
+import { authBaseUrl } from '../constants/constants';
 
 function Login() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  console.log({ email, password })
+  const handleEmail = (e) => {
+    setEmail(e.target.value)
+  }
+
+  const handlePassword = (e) => {
+    setPassword(e.target.value)
+  }
   const navigate = useNavigate();
 
   const handleLogin = () => {
@@ -19,9 +31,23 @@ function Login() {
       email,
       password,
     });
-    navigate('/dashboard');
-  };
+    axios.post(`${authBaseUrl}login`, {
+      email: email,
+      password: password
 
+    }).then(result => {
+      console.log(result.data)
+      window.localStorage.setItem("token",result.data)
+      window.localStorage.setItem("userLoggedIn",true)
+      alert('sign in success')
+      navigate('/dashboard');
+    })
+      .catch(error => {
+        alert('service error')
+        console.log(error)
+      })
+   
+  };
   return (
     <div className="login template d-flex justify-content-center align-items-center vh-100 bg ">
       <div className="form-container p-5 rounded bg-white">
@@ -30,31 +56,28 @@ function Login() {
 
           <div className="mb-3">
             <label htmlFor="email">Email Id</label>
-            <input type="email" id="email" placeholder="Enter Email" className="form-control" />
+            <input type="email" id="email" placeholder="Enter Email"
+             className="form-control"
+             onChange={handleEmail} />
           </div>
 
           <div className="mb-3">
             <label htmlFor="password">Password</label>
-            <input type="password" id="password" placeholder="Enter Password" className="form-control" />
+            <input type="password" id="password" placeholder="Enter Password" 
+            className="form-control" 
+            onChange={handlePassword}/>
           </div>
-
-          <div className="mb-3">
-            <input type="checkbox" className="custom-control-input" id="check" />
-            <label className="custom-control-label ms-2" htmlFor="check">
-              Remember Me
-            </label>
-          </div>
-
           <div className="d-grid">
             <button type="button" onClick={handleLogin} className="btn btn-primary">
               Sign in
             </button>
           </div>
-
-          <p className="text-end mt-2">
-            Forgot <a href="">Password?</a>
-            <Link to="/signup" className='ms-3'>Sign up</Link>
+          <div className='up'>
+          <p className="">
+            Don't have an account ? <Link to="/signup" style={{ textDecoration: 'none' }}>Sign up</Link>
           </p>
+          </div>
+         
         </form>
       </div>
     </div>

@@ -1,22 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Container, Row, Col } from 'react-bootstrap';
 import "./Popup.css"
 import axios from 'axios';
 import { baseUrl } from '../constants/constants';
 
+function EditPopup(props) {
 
-function Popup(props) {
     const [create,setcreate] = useState(
         {
-            name:'',
+        name:'',
             phone_number:''
         }
-    )
+    )   
+    useEffect(()=>{
+        axios.get(`${baseUrl}edit_contact/${props.Contents.id}/`).then
+        (response =>{
+            setcreate(response.data);
+        }).catch(err=> console.log(err))
+    },[props.Contents.id])
    
-    
         const handlesubmit = (event) => {
             event.preventDefault();
-            axios.post(`${baseUrl}create/`,create)
+            axios.put(`${baseUrl}edit_contact/${props.Contents.id}/`,create)
             .then(
                 response => {
                     console.log(response)
@@ -34,7 +39,7 @@ function Popup(props) {
             <Container>
                 <Row className='align-items-center justify-content-center'>
                     <Col>
-                       <h1 className='add'>Add Contact</h1>
+                       <h1 className='add'>Edit Contact</h1>
                         <div className="contents">
                             <form name="sent" id="contactForm" noValidate>
                                 <div className="control-group">
@@ -43,9 +48,12 @@ function Popup(props) {
                                         className="form-control"
                                         id="name"
                                         placeholder='Enter Name'
-                                        onChange={e => setcreate({
-                                            ...create, name:e.target.value
-                                        })}
+                                        value={create.name}
+                                        onChange={e => setcreate(prevState => ({
+                                            ...prevState,
+                                            name: e.target.value
+                                        }))}
+                                    
                                     />
                                 </div>
                                 <div className="control-group">
@@ -54,9 +62,11 @@ function Popup(props) {
                                         className="form-control"
                                         id="number"
                                         placeholder='Enter Phone Number'
-                                        onChange={e => setcreate({
-                                            ...create, phone_number:e.target.value
-                                        })}
+                                        value={create.phone_number}
+                                        onChange={e => setcreate(prevState => ({
+                                            ...prevState,
+                                            phone_number: e.target.value
+                                        }))}
                                     />
                                 </div>
                                 <div className='hello'>
@@ -76,4 +86,4 @@ function Popup(props) {
     ) : "";
 }
 
-export default Popup
+export default EditPopup

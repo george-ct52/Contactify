@@ -1,19 +1,33 @@
-import React from 'react';
+import React, {  useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import '../style.css';
-
+import { authBaseUrl } from '../constants/constants';
+import axios from 'axios';
 function Signup() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [name, setName] = useState('')
+  console.log({ email, password })
+  const handleEmail = (e) => {
+    setEmail(e.target.value)
+  }
+
+  const handlePassword = (e) => {
+    setPassword(e.target.value)
+  }
+  const handleName = (e) => {
+    setName(e.target.value)
+  }
   const navigate = useNavigate();
 
   const handleSignUp = () => {
    
     const firstName = document.getElementById('fname').value;
-    const lastName = document.getElementById('lname').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    const email1 = document.getElementById('email').value;
+    const password1 = document.getElementById('password').value;
 
    
-    if (!firstName || !lastName || !email || !password) {
+    if (!firstName || !email1 || !password1) {
       alert('Please fill in all the fields');
       return;
     }
@@ -21,11 +35,22 @@ function Signup() {
 
     console.log('User registered:', {
       firstName,
-      lastName,
       email,
       password,
     });
+    axios.post(`${authBaseUrl}register`, {
+      name: name,
+      email: email,
+      password: password
 
+    }).then(result => {
+      console.log(result.data)
+      alert('sign up success')
+    })
+      .catch(error => {
+        alert('service error')
+        console.log(error)
+      })
   
     navigate('/');
   };
@@ -37,21 +62,17 @@ function Signup() {
           <h3 className="text-center  text-primary">Sign Up</h3>
 
           <div className="mb-3">
-            <label htmlFor="fname">First Name</label>
-            <input type="text" id="fname" placeholder="Enter First Name" className="form-control" />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="lname">Last Name</label>
-            <input type="text" id="lname" placeholder="Enter Last Name" className="form-control" />
+            <label htmlFor="fname">Name</label>
+            <input type="text" id="fname" placeholder="Enter Name" className="form-control" onChange={handleName}/>
           </div>
           <div className="mb-3">
             <label htmlFor="email">Email Id</label>
-            <input type="email" id="email" placeholder="Enter Email" className="form-control" />
+            <input type="email" id="email" placeholder="Enter Email" className="form-control" onChange={handleEmail}/>
           </div>
 
           <div className="mb-3">
             <label htmlFor="password">Password</label>
-            <input type="password" id="password" placeholder="Enter Password" className="form-control" />
+            <input type="password" id="password" placeholder="Enter Password" className="form-control" onChange={handlePassword}/>
           </div>
 
           <div className="d-grid">
@@ -59,10 +80,12 @@ function Signup() {
               Sign up
             </button>
           </div>
-
-          <p className="text-end mt-2">
-            Already Registered?<Link to="/" className='ms-2'>Sign in</Link>
+         <div className="up">
+         <p className="">
+            Already Registered ?<Link to="/" className='' style={{ textDecoration: 'none' }}>Sign in</Link>
           </p>
+         </div>
+         
         </form>
       </div>
     </div>

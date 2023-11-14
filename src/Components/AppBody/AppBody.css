@@ -8,7 +8,7 @@
 
 .body1{
     height: 100vh;
-    background-image: url('E:\React_projects\contact\Contactify\src\assets\img3.jpg');
+    background-image: url('../assets/img3.jpg');
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
